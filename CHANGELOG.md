@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.0 — 2026-10-26
+
+- Integrate the separately installed `aoreshkov/oracle-forms-mcp` through a managed stdio adapter.
+- Add upstream status/schema discovery, allowlisted reads, explicit module fetching and opt-in annotation writes.
+- Accept `upstream:NAME.fmb`/`.mmb`/`.pll`/`.olb` in the existing migration tools.
+- Retain property classes, effective DML, inherited-body status, source references and provenance hashes; stop normalization on truncated or drifting evidence.
+- Add nine adapter tests, a real-server protocol harness and pinned public-example downloads.
+- Validate ten upstream fixtures and ten independent Summit exports through the actual upstream v0.15.0 release, including forms, menus, object libraries and PLD libraries.
+
+Live Oracle schema checks, business-rule compilation, APEX imports and REST runtime behavior still require a development environment.
+
 ## 0.1.0 — 2026-10-26
 
 - Initial public alpha of the Forms26 MCP server, under the MIT License.
