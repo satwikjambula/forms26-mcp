@@ -20,7 +20,8 @@ async def main():
             tools = await session.list_tools()
             expected = {"list_forms", "analyze_form", "list_components", "get_source",
                         "migration_risks", "plan_apex", "draft_api", "inspect_database_objects",
-                        "upstream_status", "upstream_read", "upstream_fetch", "upstream_annotate"}
+                        "upstream_status", "upstream_read", "upstream_fetch", "upstream_annotate",
+                        "testkit_status", "testkit_read", "generate_post_development_tests"}
             assert {t.name for t in tools.tools} == expected
 
             async def call(name, args):
@@ -30,6 +31,7 @@ async def main():
 
             assert (await call("list_forms", {}))["total"] == 1
             assert not (await call("upstream_status", {}))["configured"]
+            assert not (await call("testkit_status", {}))["configured"]
             base = {"path": "orders_fmb.xml"}
             assert (await call("analyze_form", base))["counts"]["Block"] == 3
             components = await call("list_components", {**base, "kind": "Trigger", "limit": 1})
@@ -48,7 +50,7 @@ async def main():
             await session.read_resource("forms26://workflow")
             prompt = await session.get_prompt("modernize_form", {"path": "orders_fmb.xml"})
             assert prompt.messages
-            print("PASS: stdio initialization, 12 tools, pagination, source retrieval, errors, resource and prompt")
+            print("PASS: stdio initialization, 15 tools, pagination, source retrieval, errors, resource and prompt")
 
 
 if __name__ == "__main__":
