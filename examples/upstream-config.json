@@ -1,0 +1,7 @@
+{
+  "command": "/ABSOLUTE/PATH/oracle-forms-mcp-server/bin/server",
+  "args": ["--forms-dir", "/ABSOLUTE/PATH/EXPORTED_FORMS"],
+  "env": {},
+  "timeout_seconds": 180,
+  "allow_annotations": false
+}
