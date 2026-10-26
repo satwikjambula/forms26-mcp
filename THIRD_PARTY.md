@@ -20,3 +20,11 @@ The [example manifest](examples/public-examples.json) contains pinned URLs and S
 - The ten Summit exports come from https://github.com/jcgueriaud1/forms-summit-migration at revision `258c82b4a22fd7ccc517e3be6a05f25e52e31a0d`. No repository license file was located during this check. They were read/downloaded for testing and are not redistributed here or relicensed as MIT.
 
 Oracle's Summit demo is also referenced by Oracle's Forms modernization articles. Oracle software and sample materials retain their respective terms. Merely appearing in a public repository does not make a file MIT-licensed.
+
+## apx-testkit
+
+- Project: https://github.com/satwikjambula/apx-testkit
+- Upstream license: Apache-2.0.
+- Tested revision: `10565ad65f8533b8aab8fa55ac1f546abfcd37aa` (MCP version `0.1.0`).
+- Forms26 calls its public stdio MCP interface and delegates to its deterministic generator. No generator implementation or upstream fixture source is vendored here.
+- Its testkit runtime must be installed separately in the consuming Playwright test project. Keep upstream's distribution and license notices intact.
