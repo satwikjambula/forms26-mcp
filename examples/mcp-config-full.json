@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "forms26": {
+      "command": "/ABSOLUTE/PATH/forms26-mcp/.venv/bin/python",
+      "args": [
+        "-m", "forms26_mcp.server",
+        "--root", "/ABSOLUTE/PATH/EXPORTED_FORMS",
+        "--upstream-config", "/ABSOLUTE/PATH/upstream-config.local.json",
+        "--testkit-config", "/ABSOLUTE/PATH/testkit-config.local.json"
+      ]
+    }
+  }
+}
