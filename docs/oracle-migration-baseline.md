@@ -4,6 +4,8 @@ Reviewed reference: [Oracle Application Express 5.0 — Converting an Oracle For
 
 This exact page was reviewed after the initial starter implementation, when supplied by the project requester. Earlier inputs were Oracle's Forms2XML blog and newer MCP-assisted modernization guidance, alongside the Pretius workflow description. This document records that distinction rather than implying the original implementation covered this guide completely.
 
+Version 0.2 adds an optional adapter for Oracle Forms MCP. The table below records the original local-parser baseline; [upstream integration](upstream-integration.md) now provides PLD ingestion, property-class/inheritance metadata, native cross-module search and persistent annotations. Reports XML and completed APEX generation remain gaps. The adapter reads an external server; it does not add those parsers to the local XML implementation.
+
 The linked guide is historical APEX 5.0 documentation. It describes a migration workshop and application generation capabilities for that release. The database target (26ai) and APEX release are separate version choices; the project's installed APEX/ORDS capabilities must be verified independently.
 
 | Oracle guide area | Starter status | Required follow-up |
