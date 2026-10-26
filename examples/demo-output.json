@@ -1,0 +1,476 @@
+{
+  "assessment": {
+    "module": "ORDERS",
+    "sha256": "c29cf78426937ce3dd9ec30b89b01e6dfb6ffbb408fb10daf4715fc581742634",
+    "target": "APEX and ORDS APIs on Oracle AI Database 26ai",
+    "counts": {
+      "AttachedLibrary": 1,
+      "Block": 3,
+      "Item": 8,
+      "Trigger": 3,
+      "Relation": 1,
+      "RecordGroup": 1,
+      "LOV": 1,
+      "ProgramUnit": 1
+    },
+    "nonblank_code_lines": 19,
+    "complexity_points": 49,
+    "factors": {
+      "base": 5,
+      "blocks": 9,
+      "items": 2,
+      "code_units": 4,
+      "code_lines": 1,
+      "risks": 20,
+      "libraries": 5,
+      "relations": 3
+    },
+    "risk_count": 4,
+    "confidence": "uncalibrated heuristic",
+    "limitations": [
+      "No Forms runtime behavior or database compatibility has been verified.",
+      "SQL and PL/SQL dependency discovery is heuristic, not a compiler.",
+      "Attached PLLs, OLB inheritance, dynamic SQL and external integrations need separate review.",
+      "Points cover observed module complexity; portfolio, UAT, deployment and training require separate planning."
+    ]
+  },
+  "risks": [
+    {
+      "rule": "session_state",
+      "severity": "high",
+      "component_id": "c00007",
+      "name": "WHEN-VALIDATE-RECORD",
+      "occurrences": 1,
+      "lines": [
+        6
+      ],
+      "action": "Make session dependencies explicit; decide which values are parameters versus APEX session state."
+    },
+    {
+      "rule": "navigation",
+      "severity": "high",
+      "component_id": "c00016",
+      "name": "WHEN-BUTTON-PRESSED",
+      "occurrences": 1,
+      "lines": [
+        2
+      ],
+      "action": "Replace Forms navigation and mutable item state with APEX events, processes, and explicit request state."
+    },
+    {
+      "rule": "transaction",
+      "severity": "high",
+      "component_id": "c00016",
+      "name": "WHEN-BUTTON-PRESSED",
+      "occurrences": 1,
+      "lines": [
+        3
+      ],
+      "action": "Review transaction boundaries, validation ordering, optimistic locking, and API retry behavior."
+    },
+    {
+      "rule": "integration",
+      "severity": "high",
+      "component_id": "c00019",
+      "name": "PRINT_ORDER",
+      "occurrences": 1,
+      "lines": [
+        3
+      ],
+      "action": "Replace desktop, file, report, or Java integrations with a reviewed server-side service."
+    }
+  ],
+  "apex": {
+    "module": "ORDERS",
+    "sha256": "c29cf78426937ce3dd9ec30b89b01e6dfb6ffbb408fb10daf4715fc581742634",
+    "regions": [
+      {
+        "source_id": "c00002",
+        "name": "ORDERS",
+        "data_source_hint": "ORDERS",
+        "suggested_region": "Form or Interactive Grid (choose after reviewing record cardinality)",
+        "status": "requires schema and UX review"
+      },
+      {
+        "source_id": "c00009",
+        "name": "ORDER_LINES",
+        "data_source_hint": "ORDER_LINES",
+        "suggested_region": "Form or Interactive Grid (choose after reviewing record cardinality)",
+        "status": "requires schema and UX review"
+      },
+      {
+        "source_id": "c00014",
+        "name": "CONTROL",
+        "data_source_hint": null,
+        "suggested_region": "Control region",
+        "status": "requires schema and UX review"
+      }
+    ],
+    "trigger_mappings": [
+      {
+        "source_id": "c00007",
+        "trigger": "WHEN-VALIDATE-RECORD",
+        "block": "ORDERS",
+        "apex_target": "APEX row validation + shared package validation",
+        "shared_api_operation": "validate"
+      },
+      {
+        "source_id": "c00008",
+        "trigger": "POST-QUERY",
+        "block": "ORDERS",
+        "apex_target": "Report query/view projection or set-based enrichment",
+        "shared_api_operation": "read"
+      },
+      {
+        "source_id": "c00016",
+        "trigger": "WHEN-BUTTON-PRESSED",
+        "block": "CONTROL",
+        "apex_target": "APEX button, dynamic action, or submit process",
+        "shared_api_operation": "review"
+      }
+    ],
+    "architecture": "APEX processes and ORDS handlers call the same reviewed PL/SQL service package.",
+    "acceptance": [
+      "Reproduce trigger ordering and validation outcomes using representative cases.",
+      "Verify primary keys, constraints, authorization and row visibility.",
+      "Verify master/detail behavior, LOVs, keyboard workflows and reports.",
+      "Keep Forms navigation and UI/session state out of database packages.",
+      "Test concurrent updates, rollback and API retries."
+    ],
+    "artifact_type": "design blueprint; not an importable APEX application"
+  },
+  "source_inventory": {
+    "path": "orders_fmb.xml",
+    "sha256": "c29cf78426937ce3dd9ec30b89b01e6dfb6ffbb408fb10daf4715fc581742634",
+    "module": "ORDERS",
+    "module_kind": "FormModule",
+    "components": [
+      {
+        "id": "c00001",
+        "kind": "AttachedLibrary",
+        "name": "COMMON_RULES",
+        "parent_id": "",
+        "block": null,
+        "properties": {
+          "Name": "COMMON_RULES",
+          "LibraryLocation": "COMMON_RULES.pll"
+        },
+        "source": ""
+      },
+      {
+        "id": "c00002",
+        "kind": "Block",
+        "name": "ORDERS",
+        "parent_id": "",
+        "block": "ORDERS",
+        "properties": {
+          "Name": "ORDERS",
+          "QueryDataSourceName": "ORDERS",
+          "DMLDataTargetName": "ORDERS",
+          "DatabaseBlock": "true"
+        },
+        "source": ""
+      },
+      {
+        "id": "c00003",
+        "kind": "Item",
+        "name": "ORDER_ID",
+        "parent_id": "c00002",
+        "block": "ORDERS",
+        "properties": {
+          "Name": "ORDER_ID",
+          "ColumnName": "ORDER_ID",
+          "DataType": "Number",
+          "DatabaseItem": "true"
+        },
+        "source": ""
+      },
+      {
+        "id": "c00004",
+        "kind": "Item",
+        "name": "CUSTOMER_ID",
+        "parent_id": "c00002",
+        "block": "ORDERS",
+        "properties": {
+          "Name": "CUSTOMER_ID",
+          "ColumnName": "CUSTOMER_ID",
+          "DataType": "Number",
+          "DatabaseItem": "true",
+          "LovName": "CUSTOMERS_LOV"
+        },
+        "source": ""
+      },
+      {
+        "id": "c00005",
+        "kind": "Item",
+        "name": "ORDER_TOTAL",
+        "parent_id": "c00002",
+        "block": "ORDERS",
+        "properties": {
+          "Name": "ORDER_TOTAL",
+          "ColumnName": "ORDER_TOTAL",
+          "DataType": "Number",
+          "DatabaseItem": "true"
+        },
+        "source": ""
+      },
+      {
+        "id": "c00006",
+        "kind": "Item",
+        "name": "STATUS",
+        "parent_id": "c00002",
+        "block": "ORDERS",
+        "properties": {
+          "Name": "STATUS",
+          "ColumnName": "STATUS",
+          "DataType": "Char",
+          "DatabaseItem": "true"
+        },
+        "source": ""
+      },
+      {
+        "id": "c00007",
+        "kind": "Trigger",
+        "name": "WHEN-VALIDATE-RECORD",
+        "parent_id": "c00002",
+        "block": "ORDERS",
+        "properties": {
+          "Name": "WHEN-VALIDATE-RECORD"
+        },
+        "source": "BEGIN\n  IF :ORDERS.ORDER_TOTAL < 0 THEN\n    MESSAGE('Total must be positive');\n    RAISE FORM_TRIGGER_FAILURE;\n  END IF;\n  IF :GLOBAL.BUSINESS_UNIT IS NULL THEN\n    RAISE FORM_TRIGGER_FAILURE;\n  END IF;\nEND;"
+      },
+      {
+        "id": "c00008",
+        "kind": "Trigger",
+        "name": "POST-QUERY",
+        "parent_id": "c00002",
+        "block": "ORDERS",
+        "properties": {
+          "Name": "POST-QUERY"
+        },
+        "source": "BEGIN :ORDERS.STATUS := NVL(:ORDERS.STATUS, 'NEW'); END;"
+      },
+      {
+        "id": "c00009",
+        "kind": "Block",
+        "name": "ORDER_LINES",
+        "parent_id": "",
+        "block": "ORDER_LINES",
+        "properties": {
+          "Name": "ORDER_LINES",
+          "QueryDataSourceName": "ORDER_LINES",
+          "DatabaseBlock": "true"
+        },
+        "source": ""
+      },
+      {
+        "id": "c00010",
+        "kind": "Item",
+        "name": "ORDER_ID",
+        "parent_id": "c00009",
+        "block": "ORDER_LINES",
+        "properties": {
+          "Name": "ORDER_ID",
+          "ColumnName": "ORDER_ID",
+          "DataType": "Number"
+        },
+        "source": ""
+      },
+      {
+        "id": "c00011",
+        "kind": "Item",
+        "name": "LINE_NO",
+        "parent_id": "c00009",
+        "block": "ORDER_LINES",
+        "properties": {
+          "Name": "LINE_NO",
+          "ColumnName": "LINE_NO",
+          "DataType": "Number"
+        },
+        "source": ""
+      },
+      {
+        "id": "c00012",
+        "kind": "Item",
+        "name": "QUANTITY",
+        "parent_id": "c00009",
+        "block": "ORDER_LINES",
+        "properties": {
+          "Name": "QUANTITY",
+          "ColumnName": "QUANTITY",
+          "DataType": "Number"
+        },
+        "source": ""
+      },
+      {
+        "id": "c00013",
+        "kind": "Relation",
+        "name": "ORDERS_LINES",
+        "parent_id": "",
+        "block": null,
+        "properties": {
+          "Name": "ORDERS_LINES",
+          "MasterBlock": "ORDERS",
+          "DetailBlock": "ORDER_LINES",
+          "JoinCondition": "ORDERS.ORDER_ID = ORDER_LINES.ORDER_ID"
+        },
+        "source": ""
+      },
+      {
+        "id": "c00014",
+        "kind": "Block",
+        "name": "CONTROL",
+        "parent_id": "",
+        "block": "CONTROL",
+        "properties": {
+          "Name": "CONTROL",
+          "DatabaseBlock": "false"
+        },
+        "source": ""
+      },
+      {
+        "id": "c00015",
+        "kind": "Item",
+        "name": "SAVE",
+        "parent_id": "c00014",
+        "block": "CONTROL",
+        "properties": {
+          "Name": "SAVE",
+          "ItemType": "Push Button"
+        },
+        "source": ""
+      },
+      {
+        "id": "c00016",
+        "kind": "Trigger",
+        "name": "WHEN-BUTTON-PRESSED",
+        "parent_id": "c00015",
+        "block": "CONTROL",
+        "properties": {
+          "Name": "WHEN-BUTTON-PRESSED"
+        },
+        "source": "BEGIN\n  GO_BLOCK('ORDERS');\n  COMMIT_FORM();\nEND;"
+      },
+      {
+        "id": "c00017",
+        "kind": "RecordGroup",
+        "name": "CUSTOMERS_RG",
+        "parent_id": "",
+        "block": null,
+        "properties": {
+          "Name": "CUSTOMERS_RG"
+        },
+        "source": "SELECT customer_id, name FROM customers WHERE active = 'Y'"
+      },
+      {
+        "id": "c00018",
+        "kind": "LOV",
+        "name": "CUSTOMERS_LOV",
+        "parent_id": "",
+        "block": null,
+        "properties": {
+          "Name": "CUSTOMERS_LOV",
+          "RecordGroupName": "CUSTOMERS_RG"
+        },
+        "source": ""
+      },
+      {
+        "id": "c00019",
+        "kind": "ProgramUnit",
+        "name": "PRINT_ORDER",
+        "parent_id": "",
+        "block": null,
+        "properties": {
+          "Name": "PRINT_ORDER"
+        },
+        "source": "PROCEDURE print_order IS\nBEGIN\n  HOST('print-order');\nEND;"
+      }
+    ]
+  },
+  "api_example": {
+    "module": "ORDERS",
+    "sha256": "c29cf78426937ce3dd9ec30b89b01e6dfb6ffbb408fb10daf4715fc581742634",
+    "block": "ORDERS",
+    "source_component_ids": [
+      "c00007",
+      "c00008",
+      "c00017",
+      "c00019"
+    ],
+    "field_hints": [
+      {
+        "source_id": "c00003",
+        "name": "ORDER_ID",
+        "column": "ORDER_ID",
+        "forms_datatype": "Number"
+      },
+      {
+        "source_id": "c00004",
+        "name": "CUSTOMER_ID",
+        "column": "CUSTOMER_ID",
+        "forms_datatype": "Number"
+      },
+      {
+        "source_id": "c00005",
+        "name": "ORDER_TOTAL",
+        "column": "ORDER_TOTAL",
+        "forms_datatype": "Number"
+      },
+      {
+        "source_id": "c00006",
+        "name": "STATUS",
+        "column": "STATUS",
+        "forms_datatype": "Char"
+      }
+    ],
+    "package_sql": "-- DRAFT: compile and test in a disposable development schema only.\n-- Deliberately fails until a developer implements the reviewed business rules.\nCREATE OR REPLACE PACKAGE MIGRATION_SERVICE AUTHID DEFINER AS\n  FUNCTION validate_payload(p_payload IN CLOB) RETURN CLOB;\nEND MIGRATION_SERVICE;\n/\nCREATE OR REPLACE PACKAGE BODY MIGRATION_SERVICE AS\n  FUNCTION validate_payload(p_payload IN CLOB) RETURN CLOB IS\n  BEGIN\n    raise_application_error(-20001, 'Migration rules have not been implemented');\n    RETURN NULL;\n  END validate_payload;\nEND MIGRATION_SERVICE;\n/\n",
+    "ords_sql": "-- DRAFT: requires an ORDS-enabled development schema.\n-- Keep NOT_PUBLISHED until authentication, authorization and tests are complete.\nBEGIN\n  ORDS.DEFINE_MODULE(p_module_name => 'migration.migration_service',\n    p_base_path => '/migration/migration_service/',\n    p_status => 'NOT_PUBLISHED', p_items_per_page => 25);\n  ORDS.DEFINE_TEMPLATE(p_module_name => 'migration.migration_service', p_pattern => 'validate');\n  ORDS.DEFINE_HANDLER(p_module_name => 'migration.migration_service', p_pattern => 'validate',\n    p_method => 'POST', p_source_type => ORDS.source_type_plsql,\n    p_mimes_allowed => 'application/json',\n    p_source => 'DECLARE\n      l_payload CLOB := :body_text;\n      l_result CLOB;\n    BEGIN\n      l_result := MIGRATION_SERVICE.validate_payload(l_payload);\n      -- TODO: implement bounded/chunked JSON response output and error mapping.\n      :status_code := 501;\n    END;');\nEND;\n/\n-- Deployment tooling owns COMMIT and rollback/recovery decisions.\n",
+    "openapi": {
+      "openapi": "3.1.0",
+      "info": {
+        "title": "MIGRATION_SERVICE validation draft",
+        "version": "0.1.0"
+      },
+      "paths": {
+        "/migration/migration_service/validate": {
+          "post": {
+            "operationId": "migration_service_validate",
+            "description": "Draft validation endpoint. Current package deliberately raises -20001; no business logic is implemented.",
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "additionalProperties": true
+                  }
+                }
+              }
+            },
+            "responses": {
+              "501": {
+                "description": "Scaffold only; business rules and response handling are pending"
+              },
+              "500": {
+                "description": "Unimplemented package raises an error"
+              }
+            }
+          }
+        }
+      },
+      "x-review-required": [
+        "Define field types and required values from verified schema and rules",
+        "Define authentication and authorization before publishing",
+        "Specify success/error responses, rate limits and idempotency"
+      ]
+    },
+    "apex_call_pattern": "Use MIGRATION_SERVICE.validate_payload from a reviewed APEX validation/process with explicit JSON inputs.",
+    "pending": [
+      "Implement validation from source and verified database constraints",
+      "Add create/update/delete/read operations after schema and transaction review",
+      "Implement JSON serialization, validation errors and ORDS response handling",
+      "Add authorization, audit behavior and concurrency tests"
+    ],
+    "status": "scaffold only; no conversion or deployment has occurred"
+  }
+}
