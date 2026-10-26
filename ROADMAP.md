@@ -1,6 +1,6 @@
 # Roadmap
 
-Current release: 0.2.0 alpha. Forms26 now integrates Oracle Forms MCP for richer inspection, PLD libraries, inheritance metadata, search and optional annotations. The existing migration outputs remain reviewable blueprints and shells. The priorities below are proposed work, not delivery commitments.
+Current release: 0.3.0 alpha. Forms26 integrates Oracle Forms MCP for inspection and apx-testkit for post-development smoke-test generation from completed APEXlang exports. The migration outputs remain reviewable blueprints and shells. Live execution and business-rule acceptance remain separate work. The priorities below are proposed work, not delivery commitments.
 
 1. **Validate real Forms2XML variants:** collect authorized, synthetic reproductions and test against exported attributes, property IDs, default/inherited values and module types.
 2. **Complete migration inputs:** extend the upstream adapter's large-index handling and inherited structure reconstruction; add separate Reports XML parsing. PLD source ingestion is now available through upstream.
