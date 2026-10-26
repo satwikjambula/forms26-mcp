@@ -40,7 +40,10 @@ class UpstreamConfig:
 
     @classmethod
     def from_file(cls, path: str) -> "UpstreamConfig":
-        value = json.loads(Path(path).read_text(encoding="utf-8"))
+        return cls.from_dict(json.loads(Path(path).read_text(encoding="utf-8")))
+
+    @classmethod
+    def from_dict(cls, value: dict) -> "UpstreamConfig":
         allowed = {"command", "args", "env", "timeout_seconds", "allow_annotations"}
         if not isinstance(value, dict) or set(value) - allowed:
             raise ValueError("Upstream config must contain only command, args, env, timeout_seconds and allow_annotations")
