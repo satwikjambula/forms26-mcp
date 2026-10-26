@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Module SYSTEM "forms.dtd">
+<Module version="122140200">
+  <FormModule Name="ORDERS" Title="Synthetic example: order entry">
+    <AttachedLibrary Name="COMMON_RULES" LibraryLocation="COMMON_RULES.pll"/>
+    <Block Name="ORDERS" QueryDataSourceName="ORDERS" DMLDataTargetName="ORDERS" DatabaseBlock="true">
+      <Item Name="ORDER_ID" ColumnName="ORDER_ID" DataType="Number" DatabaseItem="true"/>
+      <Item Name="CUSTOMER_ID" ColumnName="CUSTOMER_ID" DataType="Number" DatabaseItem="true" LovName="CUSTOMERS_LOV"/>
+      <Item Name="ORDER_TOTAL" ColumnName="ORDER_TOTAL" DataType="Number" DatabaseItem="true"/>
+      <Item Name="STATUS" ColumnName="STATUS" DataType="Char" DatabaseItem="true"/>
+      <Trigger Name="WHEN-VALIDATE-RECORD"><TriggerText><![CDATA[BEGIN
+  IF :ORDERS.ORDER_TOTAL < 0 THEN
+    MESSAGE('Total must be positive');
+    RAISE FORM_TRIGGER_FAILURE;
+  END IF;
+  IF :GLOBAL.BUSINESS_UNIT IS NULL THEN
+    RAISE FORM_TRIGGER_FAILURE;
+  END IF;
+END;]]></TriggerText></Trigger>
+      <Trigger Name="POST-QUERY" TriggerText="BEGIN :ORDERS.STATUS := NVL(:ORDERS.STATUS, 'NEW'); END;"/>
+    </Block>
+    <Block Name="ORDER_LINES" QueryDataSourceName="ORDER_LINES" DatabaseBlock="true">
+      <Item Name="ORDER_ID" ColumnName="ORDER_ID" DataType="Number"/>
+      <Item Name="LINE_NO" ColumnName="LINE_NO" DataType="Number"/>
+      <Item Name="QUANTITY" ColumnName="QUANTITY" DataType="Number"/>
+    </Block>
+    <Relation Name="ORDERS_LINES" MasterBlock="ORDERS" DetailBlock="ORDER_LINES" JoinCondition="ORDERS.ORDER_ID = ORDER_LINES.ORDER_ID"/>
+    <Block Name="CONTROL" DatabaseBlock="false">
+      <Item Name="SAVE" ItemType="Push Button">
+        <Trigger Name="WHEN-BUTTON-PRESSED"><TriggerText><![CDATA[BEGIN
+  GO_BLOCK('ORDERS');
+  COMMIT_FORM();
+END;]]></TriggerText></Trigger>
+      </Item>
+    </Block>
+    <RecordGroup Name="CUSTOMERS_RG" RecordGroupQuery="SELECT customer_id, name FROM customers WHERE active = 'Y'"/>
+    <LOV Name="CUSTOMERS_LOV" RecordGroupName="CUSTOMERS_RG"/>
+    <ProgramUnit Name="PRINT_ORDER"><ProgramUnitText><![CDATA[PROCEDURE print_order IS
+BEGIN
+  HOST('print-order');
+END;]]></ProgramUnitText></ProgramUnit>
+  </FormModule>
+</Module>
