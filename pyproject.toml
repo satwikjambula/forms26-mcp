@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "forms26-mcp"
+version = "0.1.0"
+description = "Oracle Forms modernization tools for APEX and APIs on Oracle AI Database 26ai"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "Satwik Reddy Jambula"}]
+requires-python = ">=3.11"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Database",
+]
+dependencies = ["mcp==1.30.0", "defusedxml==0.7.1"]
+
+[project.urls]
+Homepage = "https://github.com/satwikjambula/forms26-mcp"
+Repository = "https://github.com/satwikjambula/forms26-mcp"
+Issues = "https://github.com/satwikjambula/forms26-mcp/issues"
+
+[project.optional-dependencies]
+oracle = ["oracledb==4.0.2"]
+
+[project.scripts]
+forms26-mcp = "forms26_mcp.server:main"
+forms26-demo = "forms26_mcp.demo:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
