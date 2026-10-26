@@ -7,3 +7,4 @@ build/
 dist/
 .external-examples/
 upstream-config.local.json
+testkit-config.local.json
