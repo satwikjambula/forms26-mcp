@@ -1,5 +1,15 @@
 # Starter validation
 
+## Version 0.3 post-development QA validation
+
+- 31 automated Forms26 tests pass; all 15 tools pass stdio discovery/protocol checks.
+- The actual apx-testkit repository at revision `10565ad65f8533b8aab8fa55ac1f546abfcd37aa` builds successfully; its 52 MCP tests pass.
+- Client → Forms26 → apx-testkit generation passed across five native APEXlang fixture suites while the actual Oracle Forms MCP v0.15.0 was also connected.
+- Generated 13 spec files with 40 test cases successfully discovered by Playwright `--list`. No browser or application was contacted.
+- Completion gating, source drift, workspace bounds, protected existing output, generation-only status and retained native quality failures are covered by QA adapter tests.
+
+See [docs/post-development-testing.md](docs/post-development-testing.md) for versions, results, configuration and outstanding live checks.
+
 ## Version 0.2 integration validation
 
 - 20 automated tests passed, including nine new adapter tests.
