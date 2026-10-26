@@ -24,6 +24,8 @@ This is an independent starter implementation inspired by the workflow in the [P
 
 The server uses **stdio** and runs alongside your development tools. Oracle Database does not host this Python process. Your MCP client supplies the language model; this project has no model API keys, paid inference calls, or AI-provider dependency.
 
+Version 0.2 adds an optional adapter for [aoreshkov/oracle-forms-mcp](https://github.com/aoreshkov/oracle-forms-mcp): Forms26 can use its indexed Forms, menus, object libraries and PLD libraries as inputs to the migration tools. See [upstream setup](docs/upstream-integration.md), [public-example results](docs/public-example-validation.md) and [third-party attribution](THIRD_PARTY.md).
+
 ## Run it
 
 Requires Python 3.11 or later. From this directory:
@@ -60,7 +62,7 @@ The corresponding exports are normally named `customers_fmb.xml` and `orders_fmb
 
 Place exported modules beneath a dedicated allowed root. Attached PLL library bodies, inherited object definitions and external integration code must be supplied and reviewed separately; seeing a library reference does not resolve its implementation.
 
-The export options and broader migration inputs are described in Oracle's [APEX 5.0 Forms migration guide](https://docs.oracle.com/cd/E59726_01/doc.50/e39148/appmgr_forms.htm). Its metadata concepts inform our [coverage and gap map](docs/oracle-migration-baseline.md). Historical APEX wizard and generation instructions are not promises about the installed target release. PLL-to-PLD and Reports XML parsing are not implemented in this starter.
+The export options and broader migration inputs are described in Oracle's [APEX 5.0 Forms migration guide](https://docs.oracle.com/cd/E59726_01/doc.50/e39148/appmgr_forms.htm). Its metadata concepts inform our [coverage and gap map](docs/oracle-migration-baseline.md). Historical APEX wizard and generation instructions are not promises about the installed target release. The optional upstream server handles PLL-to-PLD conversion and PLD inspection when configured; the local XML parser does not. Reports XML parsing remains unsupported.
 
 ## Connect Oracle 26ai for schema checks
 
@@ -100,8 +102,14 @@ An absent object means it is absent from the configured account's view; it may e
 | `plan_apex` | `path` |
 | `draft_api` | `path`, exact `block_name`, `package_name` |
 | `inspect_database_objects` | `names`: 1–20 object names |
+| `upstream_status` | Connection, version and native tool schemas; no launch secrets |
+| `upstream_read` | `tool_name`, `arguments`: allowlisted inspection/search calls |
+| `upstream_fetch` | `module`: explicit conversion/copy and cache indexing |
+| `upstream_annotate` | `tool_name`, `arguments`: annotation writes, disabled by default |
 
 Resource: `forms26://workflow`. Prompt: `modernize_form(path)`.
+
+With upstream configured, use the same analysis/source/APEX/API tools with `path: "upstream:ORDERS.fmb"` or `"upstream:UTILS.pll"`. Call `upstream_fetch` first. Native reads, including cross-module search and raw XML inspection, are available through `upstream_read`; get exact argument schemas from `upstream_status`. No read call automatically converts a module. Operator-owned launch configuration is never accepted as a tool argument.
 
 Keep the file SHA256 with each review: component IDs are stable for unchanged XML traversal, but can change when an export changes. Consume every result page and source chunk before concluding that a module has been fully inspected. XML is capped at 32 MiB per module. Normal external DTD declarations are tolerated without fetching DTD content; XML entities are rejected.
 
@@ -131,7 +139,7 @@ The server is a backend for that workflow. It does not automatically deliver a c
 
 Complexity points use the visible factors returned by `analyze_form`: base weight, blocks, groups of items, code units, nonblank code lines, risks, libraries and relations. These are **uncalibrated planning heuristics**. They are not Pretius estimates. Hours are returned only when you provide `hours_per_point`; the high end applies an explicit illustrative factor of 1.75. Calibrate against completed modules and add separate allowances for unresolved libraries, integration work, UAT, deployment and training.
 
-Parsing handles common Forms2XML attribute-based, namespaced and property-element representations. SQL/PLSQL scanning is lexical and deliberately ignores comments/string literals; it is not a compiler, complete dependency graph or Forms runtime emulator. Validate it against your own exports before portfolio-wide use. Review prompt injection and sensitive content in legacy files as project data; the host model controls what it sends to its AI provider.
+Local parsing handles common Forms2XML attribute-based, namespaced and property-element representations. The upstream adapter additionally retains property classes, effective item DML, source ranges, inherited-body status and unresolved dependencies. It refuses automatic migration when the upstream index or block details are truncated; native inspection is still available. SQL/PLSQL scanning is lexical and deliberately ignores comments/string literals; it is not a compiler, complete dependency graph or Forms runtime emulator. Validate it against your own exports before portfolio-wide use. Review prompt injection and sensitive content in legacy files as project data; the host model controls what it sends to its AI provider.
 
 Oracle AI Database 26ai is the intended target. The XML analysis does not need an Oracle connection. **No live 26ai, APEX or ORDS environment was available for validation of this starter**, so database compatibility, PL/SQL compilation and application imports have not been certified. Pinning the tested MCP v1 maintenance SDK avoids silently adopting the incompatible v2 API; upgrading should include a deliberate protocol regression check.
 
