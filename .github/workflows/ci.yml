@@ -64,3 +64,59 @@ jobs:
           python scripts/fetch_examples.py --suite upstream --out /tmp/forms26-examples
       - name: Exercise actual upstream through Forms26
         run: python scripts/check_upstream.py --config /tmp/forms26-upstream.json --modules ORDERS.fmb UTILS.pll OBJECTS.olb STYLES.fmb TOOLBAR.fmb PICKER.fmb ENTRY.fmb DUPES.fmb MAINMENU.mmb CLAIMS.fmb --output /tmp/forms26-upstream-results.json
+
+  apx-testkit-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - uses: actions/checkout@v6
+        with:
+          repository: satwikjambula/apx-testkit
+          ref: 10565ad65f8533b8aab8fa55ac1f546abfcd37aa
+          path: .external/apx-testkit
+          persist-credentials: false
+      - name: Install Forms26
+        run: python -m pip install .
+      - name: Build actual QA provider
+        working-directory: .external/apx-testkit
+        run: |
+          npm ci --ignore-scripts
+          npm run build
+          npm test -w packages/mcp
+      - name: Prepare QA fixture workspace
+        run: |
+          python - <<'PY'
+          import json, os, shutil
+          from pathlib import Path
+          provider = Path('.external/apx-testkit').resolve()
+          root = Path(os.environ['RUNNER_TEMP']) / 'forms26-qa'
+          root.mkdir()
+          names = ['reference-fixtures', 'duplicate-button-fixture', 'navigation-safety-fixture', 'modal-dialog-fixture', 'region-resolution-fixture']
+          for name in names:
+              shutil.copytree(provider / 'packages/generator/test/fixtures' / name, root / name)
+          (root / 'package.json').write_text('{"private":true,"type":"module"}\n')
+          (root / 'node_modules').symlink_to(provider / 'node_modules', target_is_directory=True)
+          config = {'command': shutil.which('node'), 'args': [str(provider / 'packages/mcp/dist/server.js')], 'workspace_root': str(root)}
+          Path(os.environ['RUNNER_TEMP'], 'forms26-testkit.json').write_text(json.dumps(config))
+          PY
+      - name: Generate post-development tests through MCP
+        run: python scripts/check_testkit.py --config "$RUNNER_TEMP/forms26-testkit.json" --exports reference-fixtures duplicate-button-fixture navigation-safety-fixture modal-dialog-fixture region-resolution-fixture --run-prefix ci --development-ref fixture-validation:10565ad65f8533b8aab8fa55ac1f546abfcd37aa --output "$RUNNER_TEMP/forms26-testkit-results.json"
+      - name: Discover generated test cases without a browser
+        run: |
+          python - <<'PY'
+          import os, subprocess
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP']) / 'forms26-qa'
+          cli = Path('.external/apx-testkit/node_modules/@playwright/test/cli.js').resolve()
+          for output in sorted((root / 'qa-output').glob('ci-*')):
+              config = output / 'playwright.config.ts'
+              config.write_text("import { defineConfig } from '@playwright/test';\nexport const APP_BASE = 'http://127.0.0.1:65535/test-only/';\nexport default defineConfig({ testDir: './tests' });\n")
+              subprocess.run(['node', str(cli), 'test', '--list', '--config', str(config)], check=True)
+          PY
