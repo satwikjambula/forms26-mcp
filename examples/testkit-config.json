@@ -1,0 +1,7 @@
+{
+  "command": "node",
+  "args": ["/ABSOLUTE/PATH/apx-testkit/packages/mcp/dist/server.js"],
+  "env": {},
+  "timeout_seconds": 180,
+  "workspace_root": "/ABSOLUTE/PATH/APEX_QA_WORKSPACE"
+}
