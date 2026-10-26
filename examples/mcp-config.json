@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "forms26": {
+      "command": "/ABSOLUTE/PATH/forms26-mcp/.venv/bin/python",
+      "args": ["-m", "forms26_mcp.server", "--root", "/ABSOLUTE/PATH/EXPORTED_FORMS"]
+    }
+  }
+}
