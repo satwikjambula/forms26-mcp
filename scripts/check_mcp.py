@@ -19,7 +19,8 @@ async def main():
             await session.initialize()
             tools = await session.list_tools()
             expected = {"list_forms", "analyze_form", "list_components", "get_source",
-                        "migration_risks", "plan_apex", "draft_api", "inspect_database_objects"}
+                        "migration_risks", "plan_apex", "draft_api", "inspect_database_objects",
+                        "upstream_status", "upstream_read", "upstream_fetch", "upstream_annotate"}
             assert {t.name for t in tools.tools} == expected
 
             async def call(name, args):
@@ -28,6 +29,7 @@ async def main():
                 return result.structuredContent or json.loads(result.content[0].text)
 
             assert (await call("list_forms", {}))["total"] == 1
+            assert not (await call("upstream_status", {}))["configured"]
             base = {"path": "orders_fmb.xml"}
             assert (await call("analyze_form", base))["counts"]["Block"] == 3
             components = await call("list_components", {**base, "kind": "Trigger", "limit": 1})
@@ -46,7 +48,7 @@ async def main():
             await session.read_resource("forms26://workflow")
             prompt = await session.get_prompt("modernize_form", {"path": "orders_fmb.xml"})
             assert prompt.messages
-            print("PASS: stdio initialization, 8 tools, pagination, source retrieval, errors, resource and prompt")
+            print("PASS: stdio initialization, 12 tools, pagination, source retrieval, errors, resource and prompt")
 
 
 if __name__ == "__main__":
