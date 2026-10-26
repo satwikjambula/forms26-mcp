@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0 — 2026-10-26
+
+- Connect the separately installed `satwikjambula/apx-testkit` MCP for post-development QA.
+- Add QA status/schema discovery, allowlisted reads and native onboarding/test generation for completed APEXlang exports.
+- Record development references, export fingerprints and optional Forms migration evidence in a persistent handoff.
+- Protect existing test outputs with fresh run directories; retain quality failures, source drift, skipped cases and generation-only status.
+- Keep SQLcl and live Playwright execution separate from generation.
+- Add 11 QA adapter tests and a real-provider harness; validate five fixture suites producing 13 spec files and 40 Playwright-discovered tests.
+
 ## 0.2.0 — 2026-10-26
 
 - Integrate the separately installed `aoreshkov/oracle-forms-mcp` through a managed stdio adapter.
