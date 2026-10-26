@@ -232,6 +232,11 @@ def apex_plan(model: dict) -> dict:
                            "data_source_hint": table,
                            "suggested_region": "Form or Interactive Grid (choose after reviewing record cardinality)" if table else "Control region",
                            "status": "requires schema and UX review"})
+            if component.get("upstream_detail"):
+                detail = component["upstream_detail"]
+                blocks[-1]["legacy_semantics"] = {key: detail.get(key) for key in
+                    ("effectiveDml", "effectiveGeometry", "unresolvedItems", "propertyClasses", "detailOf", "columns")}
+                blocks[-1]["legacy_semantics"]["relations"] = component["upstream"].get("relations", [])
         elif component["kind"] == "Trigger":
             target, operation = TRIGGER_MAP.get(component["name"].upper(),
                                                ("Manual event/lifecycle redesign", "review"))
@@ -318,7 +323,12 @@ END;
             "source_component_ids": unit_ids,
             "field_hints": [{"source_id": c["id"], "name": c["name"],
                              "column": c["properties"].get("ColumnName"),
-                             "forms_datatype": c["properties"].get("DataType")} for c in fields],
+                             "forms_datatype": c["properties"].get("DataType"),
+                             "effective_dml": c.get("effective_dml")} for c in fields],
+            "legacy_block_semantics": block.get("upstream_detail"),
+            "source_references": [{"source_id": c["id"], "reference": c.get("source_reference"),
+                                   "body_source": c.get("body_source", "own")}
+                                  for c in model["components"] if c["id"] in unit_ids],
             "package_sql": sql, "ords_sql": ords, "openapi": contract,
             "apex_call_pattern": f"Use {package}.validate_payload from a reviewed APEX validation/process with explicit JSON inputs.",
             "pending": ["Implement validation from source and verified database constraints",
