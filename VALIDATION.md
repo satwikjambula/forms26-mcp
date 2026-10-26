@@ -1,5 +1,18 @@
 # Starter validation
 
+## Version 0.2 integration validation
+
+- 20 automated tests passed, including nine new adapter tests.
+- Local stdio discovery and protocol checks passed with all 12 Forms26 tools.
+- The actual upstream v0.15.0 distribution was downloaded and its published SHA256 verified.
+- Ten upstream fixtures and ten independent Summit exports passed the nested MCP test path (client → Forms26 → upstream), including PLD libraries, menus, property classes and inherited-source cases.
+- Raw XML counts independently matched the normalized block/item/trigger/program-unit/menu counts for all seven Summit XML modules.
+- Source truncation, identity mismatches, unconfigured/disabled operations, source drift and the read/write tool boundary are covered by adapter tests.
+
+Sources, pinned revisions, module results and reproduction instructions are in [docs/public-example-validation.md](docs/public-example-validation.md). These checks do not establish compiled business-rule correctness, APEX importability or live Oracle 26ai compatibility.
+
+## Version 0.1 baseline
+
 Validated on October 26, 2026 using Python 3.12.14, MCP Python SDK 1.30.0, defusedxml 0.7.1 and python-oracledb 4.0.2.
 
 ## Checks completed
