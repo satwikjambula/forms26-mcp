@@ -1,0 +1,138 @@
+{
+  "suites": {
+    "upstream": {
+      "repository": "https://github.com/aoreshkov/oracle-forms-mcp",
+      "commit": "3d222c3d13183daea143956a16f3b7abcb43b81b",
+      "license_note": "Apache-2.0",
+      "files": [
+        {
+          "module": "CLAIMS.fmb",
+          "filename": "claims_fmb.xml",
+          "sha256": "5e62223eb671ec60cdf6f81f634145bd25976d52cd7ff8649a51569b42aa4735",
+          "url": "https://raw.githubusercontent.com/aoreshkov/oracle-forms-mcp/3d222c3d13183daea143956a16f3b7abcb43b81b/sample-forms/claims_fmb.xml"
+        },
+        {
+          "module": "DUPES.fmb",
+          "filename": "dupes_fmb.xml",
+          "sha256": "028bc6958894a473dfcd3cf6ae67e72fe80c550d22e529948902e04e5df1fc97",
+          "url": "https://raw.githubusercontent.com/aoreshkov/oracle-forms-mcp/3d222c3d13183daea143956a16f3b7abcb43b81b/sample-forms/dupes_fmb.xml"
+        },
+        {
+          "module": "ENTRY.fmb",
+          "filename": "entry_fmb.xml",
+          "sha256": "38d42481949f4b7ea5977ae6f290799f55c94effb4c2857dc1b2774ec96f7eac",
+          "url": "https://raw.githubusercontent.com/aoreshkov/oracle-forms-mcp/3d222c3d13183daea143956a16f3b7abcb43b81b/sample-forms/entry_fmb.xml"
+        },
+        {
+          "module": "MAINMENU.mmb",
+          "filename": "mainmenu_mmb.xml",
+          "sha256": "a4ab9c9ed052d851f5dfb3ae6af72a68672053164ad4cc3eaff8f9e730ebaed6",
+          "url": "https://raw.githubusercontent.com/aoreshkov/oracle-forms-mcp/3d222c3d13183daea143956a16f3b7abcb43b81b/sample-forms/mainmenu_mmb.xml"
+        },
+        {
+          "module": "OBJECTS.olb",
+          "filename": "objects_olb.xml",
+          "sha256": "31f934b1819e3ea2d6b51787590e197866864d9e45f9973a1db4e483b117f4a0",
+          "url": "https://raw.githubusercontent.com/aoreshkov/oracle-forms-mcp/3d222c3d13183daea143956a16f3b7abcb43b81b/sample-forms/objects_olb.xml"
+        },
+        {
+          "module": "ORDERS.fmb",
+          "filename": "orders_fmb.xml",
+          "sha256": "5e0e316ffdc21132eeec7a79fd3b6daf7c548732434b643b756d5d9957c8d9c5",
+          "url": "https://raw.githubusercontent.com/aoreshkov/oracle-forms-mcp/3d222c3d13183daea143956a16f3b7abcb43b81b/sample-forms/orders_fmb.xml"
+        },
+        {
+          "module": "PICKER.fmb",
+          "filename": "picker_fmb.xml",
+          "sha256": "e86996f1efd3c05edb31d663f19b952431f1d6be1aae2184f29a1ec0ce0cab95",
+          "url": "https://raw.githubusercontent.com/aoreshkov/oracle-forms-mcp/3d222c3d13183daea143956a16f3b7abcb43b81b/sample-forms/picker_fmb.xml"
+        },
+        {
+          "module": "STYLES.fmb",
+          "filename": "styles_fmb.xml",
+          "sha256": "d6681d87a759fe8547d89beeab77db37d6553c0bbd97628dc5760b28aafa3808",
+          "url": "https://raw.githubusercontent.com/aoreshkov/oracle-forms-mcp/3d222c3d13183daea143956a16f3b7abcb43b81b/sample-forms/styles_fmb.xml"
+        },
+        {
+          "module": "TOOLBAR.fmb",
+          "filename": "toolbar_fmb.xml",
+          "sha256": "2c9a5e856910fc441384fdc28d657ecbbf0c6f5dd1a8316a64c88e4bc167aeaa",
+          "url": "https://raw.githubusercontent.com/aoreshkov/oracle-forms-mcp/3d222c3d13183daea143956a16f3b7abcb43b81b/sample-forms/toolbar_fmb.xml"
+        },
+        {
+          "module": "UTILS.pll",
+          "filename": "utils.pld",
+          "sha256": "8c86af8a7da5156ef698cbf30dc902441596a25c7b1c0558a2afee65cbfbd91b",
+          "url": "https://raw.githubusercontent.com/aoreshkov/oracle-forms-mcp/3d222c3d13183daea143956a16f3b7abcb43b81b/sample-forms/utils.pld"
+        }
+      ]
+    },
+    "summit": {
+      "repository": "https://github.com/jcgueriaud1/forms-summit-migration",
+      "commit": "258c82b4a22fd7ccc517e3be6a05f25e52e31a0d",
+      "license_note": "No repository license file located; downloaded for local testing only, not redistributed",
+      "files": [
+        {
+          "module": "ORDERS.fmb",
+          "filename": "ORDERS_fmb.xml",
+          "sha256": "17b46aa93d71adb5ac96e97aacb0c7a396824f36191c1aead9e6aa23ac308979",
+          "url": "https://raw.githubusercontent.com/jcgueriaud1/forms-summit-migration/258c82b4a22fd7ccc517e3be6a05f25e52e31a0d/forms-summit-example/ORDERS_fmb.xml"
+        },
+        {
+          "module": "CALENDAR.pll",
+          "filename": "calendar.pld",
+          "sha256": "e4267f64bc2437d046c31f7c2e52ccff5a1795e5eef02a9425b280c9e02b4e51",
+          "url": "https://raw.githubusercontent.com/jcgueriaud1/forms-summit-migration/258c82b4a22fd7ccc517e3be6a05f25e52e31a0d/forms-summit-example/calendar.pld"
+        },
+        {
+          "module": "CUSTOMERS.fmb",
+          "filename": "customers_fmb.xml",
+          "sha256": "2d30e4f624e3a70322cc6061b9e61c2855f0e49e5571d1f394e1ba9fd75f45e4",
+          "url": "https://raw.githubusercontent.com/jcgueriaud1/forms-summit-migration/258c82b4a22fd7ccc517e3be6a05f25e52e31a0d/forms-summit-example/customers_fmb.xml"
+        },
+        {
+          "module": "CUSTOMERS.mmb",
+          "filename": "customers_mmb.xml",
+          "sha256": "924bab601ce710df755ed6016cc423279250259ec05fb4585065fb467224bed9",
+          "url": "https://raw.githubusercontent.com/jcgueriaud1/forms-summit-migration/258c82b4a22fd7ccc517e3be6a05f25e52e31a0d/forms-summit-example/customers_mmb.xml"
+        },
+        {
+          "module": "D2KDLSTR.pll",
+          "filename": "d2kdlstr.pld",
+          "sha256": "299551b85196e0840eee5fd98eb68c7427e4c393c5e83e2003e1685caf9aba1a",
+          "url": "https://raw.githubusercontent.com/jcgueriaud1/forms-summit-migration/258c82b4a22fd7ccc517e3be6a05f25e52e31a0d/forms-summit-example/d2kdlstr.pld"
+        },
+        {
+          "module": "DEPT.fmb",
+          "filename": "dept_fmb.xml",
+          "sha256": "a5a7302fbe30ff56ded7e7c4ae6009a078983264ebbc6f3a56c34a9be87f1659",
+          "url": "https://raw.githubusercontent.com/jcgueriaud1/forms-summit-migration/258c82b4a22fd7ccc517e3be6a05f25e52e31a0d/forms-summit-example/dept_fmb.xml"
+        },
+        {
+          "module": "M_SUMMIT.mmb",
+          "filename": "m_summit_mmb.xml",
+          "sha256": "54a7f7386b77de4293442b7acd4e910f68cf25e0c5a087414f6d7fb31dbdd108",
+          "url": "https://raw.githubusercontent.com/jcgueriaud1/forms-summit-migration/258c82b4a22fd7ccc517e3be6a05f25e52e31a0d/forms-summit-example/m_summit_mmb.xml"
+        },
+        {
+          "module": "PICK.fmb",
+          "filename": "pick_fmb.xml",
+          "sha256": "2f27024dd11f99125aca8699af78d524494bdea46e368653a8355813c70632ba",
+          "url": "https://raw.githubusercontent.com/jcgueriaud1/forms-summit-migration/258c82b4a22fd7ccc517e3be6a05f25e52e31a0d/forms-summit-example/pick_fmb.xml"
+        },
+        {
+          "module": "PICKLIST.pll",
+          "filename": "picklist.pld",
+          "sha256": "d392edced565c2091ffdff1bcdfb0f5c4cb56b5a17e1f49b616bf19adb10f860",
+          "url": "https://raw.githubusercontent.com/jcgueriaud1/forms-summit-migration/258c82b4a22fd7ccc517e3be6a05f25e52e31a0d/forms-summit-example/picklist.pld"
+        },
+        {
+          "module": "REG.fmb",
+          "filename": "reg_fmb.xml",
+          "sha256": "9cd19128d4cec5025b3a7b23938460834ba9999022192bd33f0639911615e00a",
+          "url": "https://raw.githubusercontent.com/jcgueriaud1/forms-summit-migration/258c82b4a22fd7ccc517e3be6a05f25e52e31a0d/forms-summit-example/reg_fmb.xml"
+        }
+      ]
+    }
+  }
+}
