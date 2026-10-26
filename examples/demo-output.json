@@ -402,25 +402,52 @@
         "source_id": "c00003",
         "name": "ORDER_ID",
         "column": "ORDER_ID",
-        "forms_datatype": "Number"
+        "forms_datatype": "Number",
+        "effective_dml": null
       },
       {
         "source_id": "c00004",
         "name": "CUSTOMER_ID",
         "column": "CUSTOMER_ID",
-        "forms_datatype": "Number"
+        "forms_datatype": "Number",
+        "effective_dml": null
       },
       {
         "source_id": "c00005",
         "name": "ORDER_TOTAL",
         "column": "ORDER_TOTAL",
-        "forms_datatype": "Number"
+        "forms_datatype": "Number",
+        "effective_dml": null
       },
       {
         "source_id": "c00006",
         "name": "STATUS",
         "column": "STATUS",
-        "forms_datatype": "Char"
+        "forms_datatype": "Char",
+        "effective_dml": null
+      }
+    ],
+    "legacy_block_semantics": null,
+    "source_references": [
+      {
+        "source_id": "c00007",
+        "reference": null,
+        "body_source": "own"
+      },
+      {
+        "source_id": "c00008",
+        "reference": null,
+        "body_source": "own"
+      },
+      {
+        "source_id": "c00017",
+        "reference": null,
+        "body_source": "own"
+      },
+      {
+        "source_id": "c00019",
+        "reference": null,
+        "body_source": "own"
       }
     ],
     "package_sql": "-- DRAFT: compile and test in a disposable development schema only.\n-- Deliberately fails until a developer implements the reviewed business rules.\nCREATE OR REPLACE PACKAGE MIGRATION_SERVICE AUTHID DEFINER AS\n  FUNCTION validate_payload(p_payload IN CLOB) RETURN CLOB;\nEND MIGRATION_SERVICE;\n/\nCREATE OR REPLACE PACKAGE BODY MIGRATION_SERVICE AS\n  FUNCTION validate_payload(p_payload IN CLOB) RETURN CLOB IS\n  BEGIN\n    raise_application_error(-20001, 'Migration rules have not been implemented');\n    RETURN NULL;\n  END validate_payload;\nEND MIGRATION_SERVICE;\n/\n",
