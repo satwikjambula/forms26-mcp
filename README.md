@@ -26,6 +26,8 @@ The server uses **stdio** and runs alongside your development tools. Oracle Data
 
 Version 0.2 adds an optional adapter for [aoreshkov/oracle-forms-mcp](https://github.com/aoreshkov/oracle-forms-mcp): Forms26 can use its indexed Forms, menus, object libraries and PLD libraries as inputs to the migration tools. See [upstream setup](docs/upstream-integration.md), [public-example results](docs/public-example-validation.md) and [third-party attribution](THIRD_PARTY.md).
 
+Version 0.3 connects [satwikjambula/apx-testkit](https://github.com/satwikjambula/apx-testkit) for **post-development test generation** from completed APEXlang exports. It delegates deterministic smoke-test generation, retains migration evidence and native quality/verification gaps, and records `GENERATED_NOT_EXECUTED`. See [the QA setup and workflow](docs/post-development-testing.md).
+
 ## Run it
 
 Requires Python 3.11 or later. From this directory:
@@ -106,6 +108,9 @@ An absent object means it is absent from the configured account's view; it may e
 | `upstream_read` | `tool_name`, `arguments`: allowlisted inspection/search calls |
 | `upstream_fetch` | `module`: explicit conversion/copy and cache indexing |
 | `upstream_annotate` | `tool_name`, `arguments`: annotation writes, disabled by default |
+| `testkit_status` | QA provider connection/version and native schemas |
+| `testkit_read` | `tool_name`, `arguments`: inspect exports, flow maps, diffs and touch-log coverage |
+| `generate_post_development_tests` | Completed export, fresh run name, development reference and explicit completion declaration; optional source/baseline evidence |
 
 Resource: `forms26://workflow`. Prompt: `modernize_form(path)`.
 
