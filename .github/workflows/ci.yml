@@ -29,3 +29,38 @@ jobs:
         run: python scripts/check_mcp.py
       - name: Generate offline sample
         run: python -m forms26_mcp.demo --root examples --path orders_fmb.xml --out /tmp/forms26-demo.json
+
+  upstream-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - name: Install Forms26
+        run: python -m pip install .
+      - name: Download pinned upstream and public fixtures
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, urllib.request, zipfile
+          from pathlib import Path
+          archive = Path('/tmp/oracle-forms-mcp.zip')
+          url = 'https://github.com/aoreshkov/oracle-forms-mcp/releases/download/v0.15.0/oracle-forms-mcp-server-0.15.0.zip'
+          urllib.request.urlretrieve(url, archive)
+          expected = 'd4b8d295dacb72d089ce43d0e314e1f79bd89b97f2d403e0ba778c021bac9eee'
+          assert hashlib.sha256(archive.read_bytes()).hexdigest() == expected
+          with zipfile.ZipFile(archive) as z:
+              z.extractall('/tmp/forms26-upstream')
+          launcher = next(Path('/tmp/forms26-upstream').rglob('bin/server'))
+          launcher.chmod(0o755)
+          config = {'command': str(launcher), 'args': ['--forms-dir', '/tmp/forms26-examples', '--cache-dir', '/tmp/forms26-cache'], 'env': {'JAVA_HOME': os.environ['JAVA_HOME']}}
+          Path('/tmp/forms26-upstream.json').write_text(json.dumps(config))
+          PY
+          python scripts/fetch_examples.py --suite upstream --out /tmp/forms26-examples
+      - name: Exercise actual upstream through Forms26
+        run: python scripts/check_upstream.py --config /tmp/forms26-upstream.json --modules ORDERS.fmb UTILS.pll OBJECTS.olb STYLES.fmb TOOLBAR.fmb PICKER.fmb ENTRY.fmb DUPES.fmb MAINMENU.mmb CLAIMS.fmb --output /tmp/forms26-upstream-results.json
